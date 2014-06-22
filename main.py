@@ -70,7 +70,6 @@ class ControlMainWindow(QMainWindow):
         item = self.ui.files_list.currentItem()
         arquivo_imagem = os.path.join(self.pasta, item.text())
         image_handler = ImageHandler(arquivo_imagem)
-        image_handler.read_exif()
         self.show_image(image_handler.cv_image)
         self.show_image(image_handler.classificar_imagem(), destination='imagem_classificada')
 

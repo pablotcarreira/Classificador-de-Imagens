@@ -4,6 +4,7 @@
 import cv2
 import exifread
 import numpy as np
+import math
 
 
 class ImageHandler(object):
@@ -18,17 +19,21 @@ class ImageHandler(object):
         self.color_format = 'BGR'
 
         # Parametros da camera, podem pertencer a classe camera ou a classe foto.
-        self.camera_altura = 2000  # Milimetros
-        self.camera_f = 7.6  # Distância focal.
+        self.camera_altura = 3000  # Milimetros
+        self.camera_f = 18  # Distância focal.
         self.camera_dim_sensor = 35  # Tamanho do sensor (tamanho do filme).
+        self.camera_angulo = 80
 
-    def _calcula_tamanho_uma_dimensao(self, dimensao_camera):
+    def _calcula_tamanho_uma_dimensao(self, dimensao_camera=None, angulo=None):
         """Calcula uma dimensão real representada pela foto, em mm.
 
         :param dimensao_camera:
         :return:
         """
-        cos_alpha = (dimensao_camera / 2.0) / self.camera_f
+        if dimensao_camera:
+            cos_alpha = (dimensao_camera / 2.0) / self.camera_f
+        if angulo:
+            cos_alpha = math.cos(angulo / 2)
         dimensao_imagem = self.camera_altura * cos_alpha * 2
         return dimensao_imagem
 
@@ -72,8 +77,8 @@ class ImageHandler(object):
         # Usar o HSV pois permite definir intervalos.
         hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
 
-        lower_green = np.array([30,30,40])
-        upper_green = np.array([150,200,120])
+        lower_green = np.array([30, 30, 40])
+        upper_green = np.array([150, 200, 120])
 
         # Threshold the HSV image to get only blue colors
         mask = cv2.inRange(hsv_image, lower_green, upper_green)
