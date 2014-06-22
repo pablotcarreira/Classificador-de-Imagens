@@ -2,6 +2,7 @@
 # coding=utf-8
 #
 # Pablo T. Carreira
+import cv2
 import os
 import sys
 from PySide.QtGui import *
@@ -35,7 +36,7 @@ class ControlMainWindow(QMainWindow):
         :param destination: Name of QLabel to display the image.
         """
         # Muda a ordem das cores
-        # cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
+        cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
 
         # Alpha ou não.
         alpha = False

@@ -76,12 +76,32 @@ class ImageHandler(object):
         # Ou
         # Usar o HSV pois permite definir intervalos.
         hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
+        print("minimo: {}".format(hsv_image.min()))
+        print("maximo: {}".format(hsv_image.max()))
+        # print(hsv_image)
+        # for item in hsv_image:
+        #     print item
 
-        lower_green = np.array([30, 30, 40])
-        upper_green = np.array([150, 200, 120])
+        # Threshold the HSV image para pegar o verde.
+        # lower_green = np.array([30, 30, 40])
+        # upper_green = np.array([150, 200, 120])
+        # mask = cv2.inRange(hsv_image, lower_green, upper_green)
 
-        # Threshold the HSV image to get only blue colors
-        mask = cv2.inRange(hsv_image, lower_green, upper_green)
+        # Threshold the HSV image para pegar a palhada.
+        # lower_palha = np.array([50, 20, 60])
+        # upper_palha = np.array([80, 30, 83])
+        #
+        # lower_palha = (lower_palha * 255) / 100
+        # upper_palha = (upper_palha * 255) / 100
+
+        lower_palha = np.array([80, 10, 10])
+        upper_palha = np.array([120, 200, 200])
+
+
+
+        mask = cv2.inRange(hsv_image, lower_palha, upper_palha)
+
+
         mask_color = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
         return mask_color
 
