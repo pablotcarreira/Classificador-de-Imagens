@@ -2,6 +2,7 @@
 # coding=utf-8
 #
 # Pablo T. Carreira
+import json
 import cv2
 import os
 import sys
@@ -15,6 +16,35 @@ from interface import Ui_MainWindow
 app = QApplication(sys.argv)
 
 
+class ImagemSettings(object):
+    def __init__(self, arquivo_imagem, pasta_settings):
+        """Classe que representa os parametros de configuração de uma imagem.
+        """
+        self.pasta_settings = pasta_settings
+        self.arquivo_imagem_settings = os.path.join(pasta_settings, arquivo_imagem + '_settings')
+        try:
+            self.param = self.ler()
+        except IOError:
+            self.param = None
+
+    def salvar(self):
+        """Salva as configurações de classificação da imagem.
+        Cria a pasta image_settings dentro da pasta onde estão as imagens.
+        """
+        try:
+            os.makedirs(self.pasta_settings)
+        except OSError:
+            pass
+        with open(self.arquivo_imagem_settings, 'w') as arquivo_settings:
+            json.dump(self.param, arquivo_settings)
+
+    def ler(self):
+        """Lê as configurações."""
+        with open(self.arquivo_imagem_settings, 'r') as arquivo_settings:
+            imagem_settings = json.load(arquivo_settings)
+        return imagem_settings
+
+
 class ControlMainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(ControlMainWindow, self).__init__(parent)
@@ -23,6 +53,8 @@ class ControlMainWindow(QMainWindow):
         self.settings = QSettings('Classificador', 'Independente')
         self._prepare_settings()
         self._abrir_pasta(self.settings.value('pasta_imagens'))
+        # Caminho da pasta com as configurações de parâmetro.
+        self.pasta_settings = os.path.join(self.settings.value('pasta_imagens'), 'images_settings')
 
     def _prepare_settings(self):
         # Verifica se tem o dir de imagens
@@ -65,14 +97,44 @@ class ControlMainWindow(QMainWindow):
     def selecionar_pasta(self):
         pasta = QFileDialog.getExistingDirectory(self, caption="Selecione uma pasta.")
         self.settings.setValue('pasta_imagens', pasta)
+        # Caminho da pasta com as configurações de parâmetro.
+        self.pasta_settings = os.path.join(self.settings.value('pasta_imagens'), 'images_settings')
         self._abrir_pasta(pasta)
 
     def selecionar_imagem(self):
         item = self.ui.files_list.currentItem()
         arquivo_imagem = os.path.join(self.pasta, item.text())
-        image_handler = ImageHandler(arquivo_imagem)
-        self.show_image(image_handler.cv_image)
-        self.show_image(image_handler.classificar_imagem(), destination='imagem_classificada')
+        imagem_settings = ImagemSettings(item.text(), self.pasta_settings)
+        self.image_handler = ImageHandler(arquivo_imagem, imagem_settings)
+        self.alterar_interface()
+        self.show_image(self.image_handler.cv_image)
+        self.show_image(self.image_handler.classificar_imagem(), destination='imagem_classificada')
+
+    def alterar_interface(self):
+        parametro = 'verde_upper'
+        self.ui.hsv_h.setValue(self.image_handler.imagem_settings.param[parametro][0])
+        self.ui.hsv_s.setValue(self.image_handler.imagem_settings.param[parametro][1])
+        self.ui.hsv_v.setValue(self.image_handler.imagem_settings.param[parametro][2])
+        parametro = 'verde_lower'
+        self.ui.hsv_h_2.setValue(self.image_handler.imagem_settings.param[parametro][0])
+        self.ui.hsv_s_2.setValue(self.image_handler.imagem_settings.param[parametro][1])
+        self.ui.hsv_v_2.setValue(self.image_handler.imagem_settings.param[parametro][2])
+
+
+    def alterar_parametro(self):
+        # Pega os parametros.
+        parametro = 'verde_upper'
+        h, s, v = self.ui.hsv_h.value(), self.ui.hsv_s.value(), self.ui.hsv_v.value()
+        self.image_handler.imagem_settings.param[parametro] = [h, s, v]
+        parametro = 'verde_lower'
+        h, s, v = self.ui.hsv_h_2.value(), self.ui.hsv_s_2.value(), self.ui.hsv_v_2.value()
+        self.image_handler.imagem_settings.param[parametro] = [h, s, v]
+        self.image_handler.imagem_settings.salvar()
+        self.show_image(self.image_handler.classificar_imagem(), destination='imagem_classificada')
+
+
+
+
 
 if __name__ == "__main__":
     # QT stuff

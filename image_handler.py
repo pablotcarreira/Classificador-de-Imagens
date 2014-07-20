@@ -6,13 +6,28 @@ import exifread
 import numpy as np
 import math
 
+DEFAULT_PARAMS = dict(
+    palha_upper=[150, 200, 120],
+    palha_lower=[30, 30, 40],
+    verde_upper=[150, 200, 120],
+    verde_lower=[30, 30, 40],
+)
+
 
 class ImageHandler(object):
-    def __init__(self, image_path):
+    def __init__(self, image_path, imagem_settings):
         """Handles a single image providing methods for it's manipulation.
 
         :param image_path: Full path to the image file.
         """
+        if not imagem_settings.param:
+            imagem_settings.param = DEFAULT_PARAMS
+            imagem_settings.salvar()
+
+        self.imagem_settings = imagem_settings
+
+
+
         self.image_path = image_path
         self.exif = self.read_exif()
         self.cv_image = cv2.imread(image_path)
@@ -58,7 +73,6 @@ class ImageHandler(object):
         #     print k, v
         return tags
 
-
     def classificar_imagem(self, cor=None):
         """Separa os pixels que estão próximos a esta determinada cor. Retorna uma matriz bool
           com True para as posições atendidas e False para as que estão fora do intervalo.
@@ -76,32 +90,35 @@ class ImageHandler(object):
         # Ou
         # Usar o HSV pois permite definir intervalos.
         hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
-        print("minimo: {}".format(hsv_image.min()))
-        print("maximo: {}".format(hsv_image.max()))
-        # print(hsv_image)
-        # for item in hsv_image:
-        #     print item
+        param = self.imagem_settings.param
 
-        # Threshold the HSV image para pegar o verde.
-        # lower_green = np.array([30, 30, 40])
-        # upper_green = np.array([150, 200, 120])
-        # mask = cv2.inRange(hsv_image, lower_green, upper_green)
+        lower = np.array(param['verde_lower'])
+        upper = np.array(param['verde_upper'])
+        mask1 = cv2.inRange(hsv_image, lower, upper)
 
-        # Threshold the HSV image para pegar a palhada.
-        # lower_palha = np.array([50, 20, 60])
-        # upper_palha = np.array([80, 30, 83])
-        #
-        # lower_palha = (lower_palha * 255) / 100
-        # upper_palha = (upper_palha * 255) / 100
-
-        lower_palha = np.array([80, 10, 10])
-        upper_palha = np.array([120, 200, 200])
+        # lower = np.array(param['palha_lower'])
+        # upper = np.array(param['palha_upper'])
+        #DEV
+        lower = np.array([20, 30, 80])
+        upper = np.array([35, 40, 90])
 
 
+        mask2 = cv2.inRange(hsv_image, lower, upper)
 
-        mask = cv2.inRange(hsv_image, lower_palha, upper_palha)
+        #muda a cor (BGR):
+        # preto, verde, marrom, ciano
+        cores = [(0, 0, 0), (34, 255, 0), (27, 119, 247), (244, 247, 27)]
+        cores = np.array(cores)
 
+        indice_verde = np.where(mask1==255, 1, 0)
+        indice_palha = np.where(mask2==255, 2, 0)
+        indice_sobreposicao = np.where((mask1==255)*(mask2==255), 3, 0)
 
-        mask_color = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
-        return mask_color
+        indice_composto = np.where(indice_sobreposicao==0, indice_verde, indice_sobreposicao)
+        indice_composto = np.where(indice_composto==0, indice_palha, indice_composto)
+        indices = indice_composto
+
+        indices = indices.reshape((indices.shape[0], indices.shape[1], 1))
+        saida = np.asarray(np.choose(indices, cores), dtype=np.uint8)
+        return saida
 
