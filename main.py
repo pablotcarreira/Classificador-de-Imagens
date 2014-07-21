@@ -61,6 +61,10 @@ class ControlMainWindow(QMainWindow):
         if not self.settings.contains('pasta_imagens'):
             self.settings.setValue('pasta_imagens', '.')
 
+    def _inicio_selecao(self):
+        print ("oi")
+
+
     def show_image(self, cv_image, destination='imagem_original'):
         """Show image on the interface.
 
@@ -119,10 +123,18 @@ class ControlMainWindow(QMainWindow):
         self.ui.hsv_h_2.setValue(self.image_handler.imagem_settings.param[parametro][0])
         self.ui.hsv_s_2.setValue(self.image_handler.imagem_settings.param[parametro][1])
         self.ui.hsv_v_2.setValue(self.image_handler.imagem_settings.param[parametro][2])
-
+        parametro = 'palha_upper'
+        self.ui.hsv_h_3.setValue(self.image_handler.imagem_settings.param[parametro][0])
+        self.ui.hsv_s_3.setValue(self.image_handler.imagem_settings.param[parametro][1])
+        self.ui.hsv_v_3.setValue(self.image_handler.imagem_settings.param[parametro][2])
+        parametro = 'palha_lower'
+        self.ui.hsv_h_4.setValue(self.image_handler.imagem_settings.param[parametro][0])
+        self.ui.hsv_s_4.setValue(self.image_handler.imagem_settings.param[parametro][1])
+        self.ui.hsv_v_4.setValue(self.image_handler.imagem_settings.param[parametro][2])
 
     def alterar_parametro(self):
         # Pega os parametros.
+        # Verde.
         parametro = 'verde_upper'
         h, s, v = self.ui.hsv_h.value(), self.ui.hsv_s.value(), self.ui.hsv_v.value()
         self.image_handler.imagem_settings.param[parametro] = [h, s, v]
@@ -130,6 +142,19 @@ class ControlMainWindow(QMainWindow):
         h, s, v = self.ui.hsv_h_2.value(), self.ui.hsv_s_2.value(), self.ui.hsv_v_2.value()
         self.image_handler.imagem_settings.param[parametro] = [h, s, v]
         self.image_handler.imagem_settings.salvar()
+
+        # Palha.
+        parametro = 'palha_upper'
+        h, s, v = self.ui.hsv_h_3.value(), self.ui.hsv_s_3.value(), self.ui.hsv_v_3.value()
+        self.image_handler.imagem_settings.param[parametro] = [h, s, v]
+        parametro = 'palha_lower'
+        h, s, v = self.ui.hsv_h_4.value(), self.ui.hsv_s_4.value(), self.ui.hsv_v_4.value()
+        self.image_handler.imagem_settings.param[parametro] = [h, s, v]
+
+        #Salva.
+        self.image_handler.imagem_settings.salvar()
+
+        #Recalcula.
         self.show_image(self.image_handler.classificar_imagem(), destination='imagem_classificada')
 
 

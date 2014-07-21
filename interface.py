@@ -2,12 +2,13 @@
 
 # Form implementation generated from reading ui file '/home/pablo/PythonProjects/Classificador/interface.ui'
 #
-# Created: Sun Jul 20 13:29:56 2014
+# Created: Mon Jul 21 11:38:38 2014
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PySide import QtCore, QtGui
+from widgets.imagem_clicavel import ImagemClicavel
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -15,8 +16,9 @@ class Ui_MainWindow(object):
         MainWindow.resize(1405, 806)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.imagem_original = QtGui.QLabel(self.centralwidget)
+        self.imagem_original = ImagemClicavel(self.centralwidget)
         self.imagem_original.setGeometry(QtCore.QRect(10, 10, 681, 491))
+        self.imagem_original.setMouseTracking(False)
         self.imagem_original.setFrameShape(QtGui.QFrame.Box)
         self.imagem_original.setScaledContents(True)
         self.imagem_original.setObjectName("imagem_original")
@@ -35,13 +37,13 @@ class Ui_MainWindow(object):
         self.files_list.setGeometry(QtCore.QRect(10, 530, 241, 211))
         self.files_list.setObjectName("files_list")
         self.imagem_exif_list = QtGui.QListView(self.centralwidget)
-        self.imagem_exif_list.setGeometry(QtCore.QRect(890, 540, 256, 192))
+        self.imagem_exif_list.setGeometry(QtCore.QRect(1140, 550, 256, 192))
         self.imagem_exif_list.setObjectName("imagem_exif_list")
         self.label_3 = QtGui.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(260, 540, 66, 17))
         self.label_3.setObjectName("label_3")
         self.label_4 = QtGui.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(890, 520, 66, 17))
+        self.label_4.setGeometry(QtCore.QRect(1150, 510, 66, 17))
         self.label_4.setObjectName("label_4")
         self.caminho_pasta_imagens = QtGui.QLineEdit(self.centralwidget)
         self.caminho_pasta_imagens.setGeometry(QtCore.QRect(260, 720, 161, 27))
@@ -50,7 +52,7 @@ class Ui_MainWindow(object):
         self.botao_pasta_imagens.setGeometry(QtCore.QRect(427, 720, 61, 27))
         self.botao_pasta_imagens.setObjectName("botao_pasta_imagens")
         self.groupBox = QtGui.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(540, 550, 341, 111))
+        self.groupBox.setGeometry(QtCore.QRect(430, 540, 341, 111))
         self.groupBox.setObjectName("groupBox")
         self.hsv_h = QtGui.QDoubleSpinBox(self.groupBox)
         self.hsv_h.setGeometry(QtCore.QRect(20, 30, 62, 27))
@@ -85,6 +87,39 @@ class Ui_MainWindow(object):
         self.recalcular = QtGui.QPushButton(self.centralwidget)
         self.recalcular.setGeometry(QtCore.QRect(560, 710, 99, 27))
         self.recalcular.setObjectName("recalcular")
+        self.groupBox_2 = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_2.setGeometry(QtCore.QRect(750, 540, 341, 111))
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.hsv_h_3 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_h_3.setGeometry(QtCore.QRect(20, 30, 62, 27))
+        self.hsv_h_3.setMaximum(1000.0)
+        self.hsv_h_3.setObjectName("hsv_h_3")
+        self.hsv_s_3 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_s_3.setGeometry(QtCore.QRect(90, 30, 62, 27))
+        self.hsv_s_3.setMaximum(1000.0)
+        self.hsv_s_3.setObjectName("hsv_s_3")
+        self.hsv_v_3 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_v_3.setGeometry(QtCore.QRect(160, 30, 62, 27))
+        self.hsv_v_3.setMaximum(1000.0)
+        self.hsv_v_3.setObjectName("hsv_v_3")
+        self.hsv_h_4 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_h_4.setGeometry(QtCore.QRect(20, 70, 62, 27))
+        self.hsv_h_4.setMaximum(1000.0)
+        self.hsv_h_4.setObjectName("hsv_h_4")
+        self.hsv_v_4 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_v_4.setGeometry(QtCore.QRect(160, 70, 62, 27))
+        self.hsv_v_4.setMaximum(1000.0)
+        self.hsv_v_4.setObjectName("hsv_v_4")
+        self.hsv_s_4 = QtGui.QDoubleSpinBox(self.groupBox_2)
+        self.hsv_s_4.setGeometry(QtCore.QRect(90, 70, 62, 27))
+        self.hsv_s_4.setMaximum(1000.0)
+        self.hsv_s_4.setObjectName("hsv_s_4")
+        self.label_6 = QtGui.QLabel(self.groupBox_2)
+        self.label_6.setGeometry(QtCore.QRect(240, 30, 67, 17))
+        self.label_6.setObjectName("label_6")
+        self.label_7 = QtGui.QLabel(self.groupBox_2)
+        self.label_7.setGeometry(QtCore.QRect(240, 70, 67, 17))
+        self.label_7.setObjectName("label_7")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1405, 25))
@@ -111,9 +146,12 @@ class Ui_MainWindow(object):
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Imagens", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Info", None, QtGui.QApplication.UnicodeUTF8))
         self.botao_pasta_imagens.setText(QtGui.QApplication.translate("MainWindow", "Dir", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "HSV", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "HSV - Verde", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("MainWindow", "Upper", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Lower", None, QtGui.QApplication.UnicodeUTF8))
         self.recalcular.setText(QtGui.QApplication.translate("MainWindow", "Recalcular", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("MainWindow", "HSV - Solo", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("MainWindow", "Upper", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("MainWindow", "Lower", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
 

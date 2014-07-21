@@ -23,6 +23,9 @@
       <height>491</height>
      </rect>
     </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Box</enum>
     </property>
@@ -88,8 +91,8 @@
    <widget class="QListView" name="imagem_exif_list">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>540</y>
+      <x>1140</x>
+      <y>550</y>
       <width>256</width>
       <height>192</height>
      </rect>
@@ -111,8 +114,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>520</y>
+      <x>1150</x>
+      <y>510</y>
       <width>66</width>
       <height>17</height>
      </rect>
@@ -147,14 +150,14 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>550</y>
+      <x>430</x>
+      <y>540</y>
       <width>341</width>
       <height>111</height>
      </rect>
     </property>
     <property name="title">
-     <string>HSV</string>
+     <string>HSV - Verde</string>
     </property>
     <widget class="QDoubleSpinBox" name="hsv_h">
      <property name="geometry">
@@ -273,6 +276,123 @@
     <property name="text">
      <string>Recalcular</string>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>540</y>
+      <width>341</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>HSV - Solo</string>
+    </property>
+    <widget class="QDoubleSpinBox" name="hsv_h_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="hsv_s_3">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>30</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="hsv_v_3">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>30</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="hsv_h_4">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="hsv_v_4">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>70</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="hsv_s_4">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>70</y>
+       <width>62</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>30</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Upper</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>70</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lower</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

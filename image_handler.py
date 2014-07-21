@@ -96,13 +96,8 @@ class ImageHandler(object):
         upper = np.array(param['verde_upper'])
         mask1 = cv2.inRange(hsv_image, lower, upper)
 
-        # lower = np.array(param['palha_lower'])
-        # upper = np.array(param['palha_upper'])
-        #DEV
-        lower = np.array([20, 30, 80])
-        upper = np.array([35, 40, 90])
-
-
+        lower = np.array(param['palha_lower'])
+        upper = np.array(param['palha_upper'])
         mask2 = cv2.inRange(hsv_image, lower, upper)
 
         #muda a cor (BGR):
