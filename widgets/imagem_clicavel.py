@@ -6,6 +6,7 @@
 
 from PySide.QtCore import *
 from PySide.QtGui import *
+import numpy as np
 
 class ImagemClicavel(QLabel):
 
@@ -26,14 +27,37 @@ class ImagemClicavel(QLabel):
 
     def mouseReleaseEvent(self, mouse_event):
         self.rubberBand.hide()
-
         self.end_coord = self._converte_coordenadas(mouse_event)
-        self._bbox()
+        self.calcular_statisticas()
 
-    def _bbox(self):
+    def calcular_statisticas(self):
+        #FIXME: Funciona apenas selecionando da esqueda para a direita e de cima para baixo.
         print self.start_coord
         print self.end_coord
-        # imagem = self.pixmap().toImage().constBits()
+        print self.cv_image.shape
+        row_min = self.start_coord[1]
+        row_max = self.end_coord[1]
+        col_min = self.start_coord[0]
+        col_max = self.end_coord[0]
+
+        # Lembrando que array e "row major".
+        slice = self.cv_image[row_min:row_max, col_min:col_max]
+        print slice.shape
+        bandas = dict(
+            hue=slice[:,:,0],
+            saturation=slice[:,:,1],
+            value=slice[:,:,2], )
+
+        # Gera as estatisticas:
+        for chave, valores in bandas.iteritems():
+            print ">>>" + chave
+            print "Média: {}".format(valores.mean())
+            print "Maximo: {}".format(valores.max())
+            print "Minimo: {}".format(valores.min())
+            print "Q1: {}".format(np.percentile(valores, 25))
+            print "Q3: {}".format(np.percentile(valores, 75))
+
+
 
     def _converte_coordenadas(self, mouse_event):
         widget_size = self.size().toTuple()

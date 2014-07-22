@@ -31,6 +31,10 @@ class ImageHandler(object):
         self.image_path = image_path
         self.exif = self.read_exif()
         self.cv_image = cv2.imread(image_path)
+        self.hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
+
+
+
         self.color_format = 'BGR'
 
         # Parametros da camera, podem pertencer a classe camera ou a classe foto.
@@ -89,7 +93,7 @@ class ImageHandler(object):
 
         # Ou
         # Usar o HSV pois permite definir intervalos.
-        hsv_image = cv2.cvtColor(self.cv_image, cv2.COLOR_BGR2HSV)
+        hsv_image = self.hsv_image
         param = self.imagem_settings.param
 
         lower = np.array(param['verde_lower'])

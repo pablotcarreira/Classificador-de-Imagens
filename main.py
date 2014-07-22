@@ -109,8 +109,14 @@ class ControlMainWindow(QMainWindow):
         item = self.ui.files_list.currentItem()
         arquivo_imagem = os.path.join(self.pasta, item.text())
         imagem_settings = ImagemSettings(item.text(), self.pasta_settings)
+
         self.image_handler = ImageHandler(arquivo_imagem, imagem_settings)
+
+        # Disponibiliza a imagem HSV no widget
+        self.ui.imagem_original.cv_image = self.image_handler.hsv_image
         self.alterar_interface()
+
+
         self.show_image(self.image_handler.cv_image)
         self.show_image(self.image_handler.classificar_imagem(), destination='imagem_classificada')
 
